@@ -27,10 +27,13 @@ $userModel = new User($db);
 
 // get the URL path from the request
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$requestMethod = $_SERVER['REQUEST_METHOD'];
 
-$matchedRoute = null;
-$matches = [];
+// Remove any unwanted characters using a regular expression (allowing only alphanumeric characters, slashes, hyphens, and underscores)
+$sanitizedUrl = filter_var($url, FILTER_SANITIZE_URL);
+$sanitizedUrl = preg_replace('/[^a-zA-Z0-9\/\-_]/', '', $sanitizedUrl);
+
+// Sanitize request method for safety
+$requestMethod = filter_var($_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING);
 
 // Build route key for lookup (e.g., "GET /users")
 $routeKey = $requestMethod . ' ' . $url;

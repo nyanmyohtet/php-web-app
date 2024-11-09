@@ -1,7 +1,5 @@
 <?php
 
-// declare(strict_types=1);
-
 require_once __DIR__ . '/vendor/autoload.php';
 require_once 'routes.php';
 require_once 'config/Database.php';
@@ -56,7 +54,7 @@ if ($matchedRoute) {
         call_user_func_array([$controller, $method], $matches);
     } catch (Exception $e) {
         http_response_code(500);
-        include __DIR__ . '/views/common/404.php';
+        include __DIR__ . '/views/common/500.php';
     }
 } else {
     http_response_code(404);

@@ -16,6 +16,7 @@
         <h1 class="display-1 fw-bold text-danger">500</h1>
         <p class="fs-3"><span class="text-danger">Oops!</span> Something went wrong.</p>
         <p class="lead">An unexpected error occurred on the server.</p>
+        <p class="lead">Error details: <?php echo $e->getMessage(); ?></p>
         <a href="/" class="btn btn-primary">Go Home</a>
     </div>
     

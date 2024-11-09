@@ -5,7 +5,7 @@ $dbConfig = require 'database.config.php';
 
 // Add other configurations here as needed
 $config = [
-    'site_title' => 'PHP Web App',
+    'site_title' => 'Coffee Shop Finder',
 ];
 
 // Merge database configs into main config if needed

@@ -1,9 +1,12 @@
 <?php
 
+// declare(strict_types=1);
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once 'routes.php';
 require_once 'config/Database.php';
 require_once 'models/User.php';
+require_once 'controllers/HomeController.php';
 require_once 'controllers/AuthController.php';
 require_once 'controllers/AuthApiController.php';
 require_once 'middlewares/TokenMiddleware.php';
@@ -62,6 +65,7 @@ if ($matchedRoute) {
 
 function resolveDependencies($controllerName, $userModel, &$session, $tokenMiddleware) {
     $dependencies = [
+        'HomeController' => [],
         'AuthController' => [$userModel, &$session],
         'AuthApiController' => [$userModel],
     ];

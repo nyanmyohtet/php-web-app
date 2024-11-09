@@ -5,6 +5,7 @@ require_once 'routes.php';
 require_once 'config/Database.php';
 require_once 'models/User.php';
 require_once 'controllers/HomeController.php';
+require_once 'controllers/AdminController.php';
 require_once 'controllers/AuthController.php';
 require_once 'controllers/AuthApiController.php';
 require_once 'middlewares/TokenMiddleware.php';
@@ -64,6 +65,7 @@ if ($matchedRoute) {
 function resolveDependencies($controllerName, $userModel, &$session, $tokenMiddleware) {
     $dependencies = [
         'HomeController' => [],
+        'AdminController' => [],
         'AuthController' => [$userModel, &$session],
         'AuthApiController' => [$userModel],
     ];

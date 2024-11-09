@@ -8,6 +8,9 @@ $routes = [
     'POST /auth/login' => ['AuthController', 'login'],
     'POST /auth/logout' => ['AuthController', 'logout'],
 
+    // Admin routes
+    'GET /admin' => ['AdminController', 'index'],
+
     // API routes
     'POST /api/v1/auth/login' => ['AuthApiController', 'login'],
 ];

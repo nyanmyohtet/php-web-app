@@ -13,8 +13,8 @@ require_once 'middlewares/TokenMiddleware.php';
 // start the session
 session_start();
 
-// initialize the database and model(s)
-$database = new Database();
+// initialize the database
+$database = Database::getInstance();
 $db = $database->getConnection();
 
 // Initialize the middlewares

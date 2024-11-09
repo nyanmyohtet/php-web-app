@@ -12,6 +12,8 @@ require_once 'middlewares/TokenMiddleware.php';
 
 // start the session
 session_start();
+// prevent session fixation attacks
+session_regenerate_id(true);
 
 // initialize the database
 $database = Database::getInstance();

@@ -38,7 +38,10 @@ $requestMethod = filter_var($_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING);
 // Build route key for lookup (e.g., "GET /users")
 $routeKey = $requestMethod . ' ' . $url;
 
-// check URL matches any defined route pattern
+$matchedRoute = null;
+$matches = [];
+
+// Match the route and find the corresponding controller action
 foreach ($routes as $routePattern => $controllerAction) {
     if (preg_match("#^$routePattern$#", $routeKey, $matches)) {
         $matchedRoute = $controllerAction;
@@ -53,12 +56,13 @@ if ($matchedRoute) {
     try {
         $controller = resolveDependencies($controllerName, $userModel, $_SESSION, $tokenMiddleware);
 
-        // remove the first element, which is the full match
+        // Remove the full match from the matches array
         array_shift($matches);
 
         // call the method with the matched parameters
         call_user_func_array([$controller, $method], $matches);
     } catch (Exception $e) {
+        error_log("Exception: " . $e->getMessage());
         http_response_code(500);
         include __DIR__ . '/views/common/500.php';
     }
@@ -67,7 +71,17 @@ if ($matchedRoute) {
     include __DIR__ . '/views/common/404.php';
 }
 
-function resolveDependencies($controllerName, $userModel, &$session, $tokenMiddleware) {
+/**
+ * Resolves and creates a controller instance with dependencies.
+ *
+ * @param string $controllerName
+ * @param User $userModel
+ * @param Shop $shopModel
+ * @param array $session
+ * @param TokenMiddleware $tokenMiddleware
+ * @return object
+ * @throws Exception
+ */
     $dependencies = [
         'HomeController' => [],
         'AdminController' => [],
@@ -76,8 +90,12 @@ function resolveDependencies($controllerName, $userModel, &$session, $tokenMiddl
     ];
 
     if (isset($dependencies[$controllerName])) {
-        $reflection = new ReflectionClass($controllerName);
-        return $reflection->newInstanceArgs($dependencies[$controllerName]);
+        try {
+            $reflection = new ReflectionClass($controllerName);
+            return $reflection->newInstanceArgs($dependencies[$controllerName]);
+        } catch (Exception $e) {
+            throw new Exception("Error instantiating controller: " . $controllerName);
+        }
     }
 
     throw new Exception("Controller not found: " . $controllerName);

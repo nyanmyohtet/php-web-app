@@ -2,6 +2,26 @@
 
 A simple PHP-based Web App that runs on `PHP 8.3` and uses `MySQL 8` as its database. The app serves as an example of how to structure a basic PHP project with a database connection.
 
+## Features
+
+- [x] Routing incomming requests to Controller Actions. [routes.php](routes.php), [web/index.php](web/index.php)
+- [x] Dependency Injection. [web/index.php](web/index.php)
+- [x] Database Connection using PHP's PDO with **Singleton Pattern**. [Database.php](config/Database.php)
+- [x] Authentication and Authentication using Session. [AuthController.php](controllers/AuthController.php)
+- [x] Authentication and Authentication using JWT. [AuthApiController.php](controllers/AuthApiController.php)
+- [x] Sanitize URL Paths. [web/index.php](web/index.php)
+
+## Improvements
+
+- [ ] Implement Dependency Injection (DI) Container instead of hardcoding dependencies for each controller in `resolveDependencies` in [web/index.php](web/index.php).
+- [ ] Multiple Database Provider Support with Factory Pattern.
+- [ ] Error Handling and Logging.
+- [ ] Prevent Session Fixation Attacks.
+- [ ] Middleware Support for Rate Limiting and Authorization Checks.
+- [ ] Enhance routing to support named routes, middleware, and parameter validation.
+- [ ] Utalize Composer's Autoload.
+
+
 ## Prerequisites
 
 Before running this application, make sure the following installed:

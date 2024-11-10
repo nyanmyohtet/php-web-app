@@ -1,10 +1,12 @@
 <?php
 
-class User {
-    private $conn;
-    private $table = 'users';
+namespace Model;
 
-    public function __construct($db) {
+class User {
+    private \PDO $conn;
+    private string $table = 'users';
+
+    public function __construct(\PDO $db) {
         $this->conn = $db;
     }
 
@@ -16,7 +18,7 @@ class User {
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     // Create a new user

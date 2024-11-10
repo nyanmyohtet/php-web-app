@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../routes.php';
-require_once __DIR__ . '/../config/Database.php';
-require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../Database/Database.php';
+require_once __DIR__ . '/../Model/User.php';
 // require_once __DIR__ . '/../models/Shop.php';
 require_once __DIR__ . '/../controllers/HomeController.php';
 require_once __DIR__ . '/../controllers/AdminController.php';
@@ -11,6 +11,9 @@ require_once __DIR__ . '/../controllers/AdminController.php';
 require_once __DIR__ . '/../controllers/AuthController.php';
 require_once __DIR__ . '/../controllers/AuthApiController.php';
 require_once __DIR__ . '/../middlewares/TokenMiddleware.php';
+
+use Database\Database;
+use Model\User;
 
 // start the session
 session_start();

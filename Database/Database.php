@@ -1,5 +1,7 @@
 <?php
 
+namespace Database;
+
 /**
  * Singleton Database class to manage database connections.
  */
@@ -9,7 +11,7 @@ class Database {
     private string $dbName;
     private string $username;
     private string $password;
-    private ?PDO $conn = null;
+    private ?\PDO $conn = null;
     private static ?Database $instance = null;
 
     /**
@@ -18,7 +20,7 @@ class Database {
      * @throws InvalidArgumentException if configuration values are missing or invalid
      */
     private function __construct() {
-        $config = require 'config.php';
+        $config = require __DIR__ . '/../config/config.php';
 
         if (!isset($config['database']) || !is_array($config['database'])) {
             throw new InvalidArgumentException("Invalid database configuration format.");
@@ -63,15 +65,15 @@ class Database {
      * @return PDO
      * @throws RuntimeException if connection fails
      */
-    public function getConnection(): PDO {
+    public function getConnection(): \PDO {
         if ($this->conn === null) {
             try {
                 $dsn = sprintf("mysql:host=%s;port=%s;dbname=%s", $this->host, $this->port, $this->dbName);
-                $this->conn = new PDO($dsn, $this->username, $this->password);
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $exception) {
+                $this->conn = new \PDO($dsn, $this->username, $this->password);
+                $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            } catch (\PDOException $exception) {
                 error_log("Connection error: " . $exception->getMessage());
-                throw new RuntimeException("Database connection failed.");
+                throw new \RuntimeException("Database connection failed.");
             }
         }
         return $this->conn;

@@ -1,14 +1,16 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-require_once 'routes.php';
-require_once 'config/Database.php';
-require_once 'models/User.php';
-require_once 'controllers/HomeController.php';
-require_once 'controllers/AdminController.php';
-require_once 'controllers/AuthController.php';
-require_once 'controllers/AuthApiController.php';
-require_once 'middlewares/TokenMiddleware.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../routes.php';
+require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../models/User.php';
+// require_once __DIR__ . '/../models/Shop.php';
+require_once __DIR__ . '/../controllers/HomeController.php';
+require_once __DIR__ . '/../controllers/AdminController.php';
+// require_once __DIR__ . '/../controllers/ShopsController.php';
+require_once __DIR__ . '/../controllers/AuthController.php';
+require_once __DIR__ . '/../controllers/AuthApiController.php';
+require_once __DIR__ . '/../middlewares/TokenMiddleware.php';
 
 // start the session
 session_start();
@@ -24,6 +26,7 @@ $tokenMiddleware = new TokenMiddleware();
 
 // Initialize the models
 $userModel = new User($db);
+// $shopModel = new Shop($db);
 
 // get the URL path from the request
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -54,7 +57,7 @@ if ($matchedRoute) {
     
     // create the controller instance with dependencies
     try {
-        $controller = resolveDependencies($controllerName, $userModel, $_SESSION, $tokenMiddleware);
+        $controller = resolveDependencies($controllerName, $userModel, $shopModel, $_SESSION, $tokenMiddleware);
 
         // Remove the full match from the matches array
         array_shift($matches);
@@ -64,11 +67,11 @@ if ($matchedRoute) {
     } catch (Exception $e) {
         error_log("Exception: " . $e->getMessage());
         http_response_code(500);
-        include __DIR__ . '/views/common/500.php';
+        include __DIR__ . '/../views/common/500.php';
     }
 } else {
     http_response_code(404);
-    include __DIR__ . '/views/common/404.php';
+    include __DIR__ . '/../views/common/404.php';
 }
 
 /**
@@ -76,15 +79,17 @@ if ($matchedRoute) {
  *
  * @param string $controllerName
  * @param User $userModel
- * @param Shop $shopModel
+//  * @param Shop $shopModel
  * @param array $session
  * @param TokenMiddleware $tokenMiddleware
  * @return object
  * @throws Exception
  */
+function resolveDependencies($controllerName, $userModel, $shopModel, &$session, $tokenMiddleware) {
     $dependencies = [
         'HomeController' => [],
         'AdminController' => [],
+        // 'ShopsController' => [$shopModel, &$session],
         'AuthController' => [$userModel, &$session],
         'AuthApiController' => [$userModel],
     ];

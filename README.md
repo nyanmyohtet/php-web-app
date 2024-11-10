@@ -60,19 +60,19 @@ After running this scripts, the database will have the `users` table(s) set up w
 
 ### 4. Start the Development Server
 
-Run the application using PHP's built-in server. In the terminal, execute:
+Run the application using Composer Script with PHP's built-in server. In the terminal, execute:
 
 ```bash
-php -S localhost:8000
+composer run serve
 ```
 
-This command will start the application at `http://localhost:8000/users`.
+This command will start the application at `http://localhost:8000`.
 
 ### 5. Access the Application
 
 Once the server is running, open the web browser and go to:
 
-`http://localhost:8000/users`
+`http://localhost:8000`
 
 This will display the user listing page.
 
@@ -88,12 +88,12 @@ Password: admin123
 
 ## Usage
 
-Once the app is running, you can view, add, and manage users by interacting with the interface at `localhost:8000/users`.
+Once the app is running, you can view, add, and manage users by interacting with the interface at `localhost:8000`.
 
 ## Troubleshooting
 
 - **Database Connection Errors**: Ensure your MySQL server is running and `database.config.php` has the correct credentials.
-- **Port Conflicts**: If `localhost:8000` is already in use, specify a different port in the `php -S` command, like `php -S localhost:8080`.
+- **Port Conflicts**: If `localhost:8000` is already in use, specify a different port in the [Composer Scripts](composer.json), like `php -S localhost:8080`.
 
 ## Running Unit Tests
 

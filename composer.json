@@ -1,9 +1,13 @@
 {
     "name": "nyanm/php-web-app",
     "description": "Web App using PHP",
+    "type": "project",
+    "scripts": {
+        "serve": "@php -S localhost:8000 -t web/"
+    },
     "autoload": {
         "psr-4": {
-            "Nyanm\\PhpWebApp\\": "src/"
+            "PhpWebApp\\": "src/"
         }
     },
     "authors": [
